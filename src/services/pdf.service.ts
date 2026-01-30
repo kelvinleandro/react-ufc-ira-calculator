@@ -56,6 +56,8 @@ export function extractDisciplines(text: string): Discipline[] {
       if (dataMatch) {
         const { code, grade, symbol, creditHour } = dataMatch.groups!;
 
+        if (symbol === "§" || symbol === "@") continue;
+
         let name = "";
         const namePart = beforePart.replace(currentPeriod, "").trim();
 
