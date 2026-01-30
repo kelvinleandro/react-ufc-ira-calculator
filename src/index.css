@@ -1,68 +1,102 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* Design System - Academic Performance Calculator
+   Dark theme with deep navy/slate colors and blue accents
+*/
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme {
+  --color-background: #080c16;
+  --color-foreground: #f8fafc;
+
+  --color-card: #0b111e;
+  --color-card-foreground: #f8fafc;
+
+  --color-popover: #0e1525;
+  --color-popover-foreground: #f8fafc;
+
+  --color-primary: #3c83f6;
+  --color-primary-foreground: #080c16;
+
+  --color-secondary: #1d283a;
+  --color-secondary-foreground: #f8fafc;
+
+  --color-muted: #18212f;
+  --color-muted-foreground: #7588a3;
+
+  --color-accent: #3c83f6;
+  --color-accent-foreground: #080c16;
+
+  --color-destructive: #ef4343;
+  --color-destructive-foreground: #f8fafc;
+
+  --color-border: #1f2a3d;
+  --color-input: #1f2a3d;
+  --color-ring: #3c83f6;
+
+  --radius: 0.75rem;
+
+  /* Custom tokens */
+  --gradient-primary: linear-gradient(135deg, #3c83f6 0%, #5e76ed 100%);
+  --gradient-card: linear-gradient(180deg, #0e1525 0%, hsl(222 47% 8%) 100%);
+  --gradient-sidebar: linear-gradient(180deg, #0c1322 0%, hsl(222 47% 7%) 100%);
+  --shadow-card: 0 4px 24px -4px #3c83f61a;
+  --shadow-elevated: 0 8px 32px -8px #00000066;
+
+  /* Chart colors */
+  --color-chart-1: #3c83f6;
+  --color-chart-2: #14eba3;
+  --color-chart-3: #af57db;
+  --color-chart-4: #f8c630;
+  --color-chart-5: #ef4343;
+
+  /* Metric card colors */
+  --color-metric-blue: #3c83f6;
+  --color-metric-green: #14eba3;
+  --color-metric-purple: #af57db;
+  --color-metric-amber: #f8c630;
+
+  --color-sidebar-background: #090e1a;
+  --color-sidebar-foreground: #dbe6f0;
+  --color-sidebar-primary: #3c83f6;
+  --color-sidebar-primary-foreground: #080c16;
+  --color-sidebar-accent: #18212f;
+  --color-sidebar-accent-foreground: #f8fafc;
+  --color-sidebar-border: #1a2333;
+  --color-sidebar-ring: #3c83f6;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer base {
+  * {
+    @apply border-border;
   }
-  a:hover {
-    color: #747bff;
+
+  body {
+    @apply bg-background text-foreground antialiased;
   }
-  button {
-    background-color: #f9f9f9;
+
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@layer components {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .gradient-sidebar {
+    background: var(--gradient-sidebar);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
   }
 }
