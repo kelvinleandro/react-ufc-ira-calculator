@@ -1,8 +1,7 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-/* Design System - Academic Performance Calculator
-   Dark theme with deep navy/slate colors and blue accents
-*/
+/* Dark theme with deep navy/slate colors and blue accents */
 
 @theme {
   --color-background: #080c16;
@@ -99,4 +98,17 @@
   .shadow-elevated {
     box-shadow: var(--shadow-elevated);
   }
+}
+
+/* ---break---
+*/
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
 }

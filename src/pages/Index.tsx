@@ -15,12 +15,8 @@ import {
   calculateSemesterIra,
   prepareGradeDistributionData,
   prepareHourlyLoadData,
-} from "../services/ira.service";
-import type {
-  CreditHourSummary,
-  Discipline,
-  PendingCourse,
-} from "../types/pdf";
+} from "@/services/ira.service";
+import type { CreditHourSummary, Discipline, PendingCourse } from "@/types/pdf";
 
 const Index = () => {
   const [pdfText, setPdfText] = useState("");

@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import About from "./pages/About";
-import NotFound from "./pages/NotFound";
+import Index from "@/pages/Index";
+import About from "@/pages/About";
+import NotFound from "@/pages/NotFound";
 
 function App() {
   return (
