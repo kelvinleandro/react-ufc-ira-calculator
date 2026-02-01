@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BookOpen } from "lucide-react";
+import UFCLogo from "/src/assets/ufc_logo.svg?react";
 
 const Header = () => {
   return (
@@ -10,9 +11,7 @@ const Header = () => {
           to="/"
           className="flex items-center gap-3 text-xl font-bold text-foreground transition-colors hover:text-primary"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary">
-            <BookOpen className="h-5 w-5 text-primary-foreground" />
-          </div>
+          <UFCLogo className="h-6 w-6" alt="UFC Logo" />
           Calculadora de IRA
         </Link>
 

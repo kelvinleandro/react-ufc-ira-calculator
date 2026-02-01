@@ -3,9 +3,9 @@ import type { Discipline } from "../types/pdf";
 export function calculateIndividualIra(disciplines: Discipline[]): number {
   if (disciplines.length === 0) return 0.0;
 
-  const firstPeriod = disciplines.reduce((minPeriod, d) =>
-    d.period < minPeriod ? d.period : minPeriod,
-    disciplines[0].period
+  const firstPeriod = disciplines.reduce(
+    (minPeriod, d) => (d.period < minPeriod ? d.period : minPeriod),
+    disciplines[0].period,
   );
   const [startYear, startSemester] = firstPeriod.split(".").map(Number);
 
@@ -66,6 +66,8 @@ export function calculateSemesterIra(
 ): Record<string, number> {
   if (disciplines.length === 0) return {};
 
+  disciplines = disciplines.filter((d) => d.status !== "MATRICULADO");
+
   const semesterIras: Record<string, number> = {};
   const completedPeriods = [
     ...new Set(disciplines.map((d) => d.period)),
@@ -87,17 +89,18 @@ export function calculateMeanGradePerSemester(
 ): Record<string, number> {
   if (disciplines.length === 0) return {};
 
-  const gradesByPeriod = disciplines.reduce(
-    (acc: Record<string, { sum: number; count: number }>, d) => {
+  const gradesByPeriod = disciplines
+    .filter((d) =>
+      ["APROVADO", "APROVADO MÉDIA", "REPROVADO"].includes(d.status),
+    )
+    .reduce((acc: Record<string, { sum: number; count: number }>, d) => {
       if (!acc[d.period]) {
         acc[d.period] = { sum: 0, count: 0 };
       }
       acc[d.period].sum += d.grade;
       acc[d.period].count += 1;
       return acc;
-    },
-    {},
-  );
+    }, {});
 
   const meanGrades: Record<string, number> = {};
   Object.keys(gradesByPeriod)
@@ -165,4 +168,19 @@ export function prepareGradeDistributionData(
   }
 
   return gradeCounts;
+}
+
+export function calculatePassRate(disciplines: Discipline[]): number {
+  if (disciplines.length === 0) return 0;
+
+  const filteredDisciplines = disciplines.filter((d) =>
+    ["APROVADO", "APROVADO MÉDIA", "REPROVADO"].includes(d.status),
+  );
+
+  const totalDisciplines = filteredDisciplines.length;
+  const passedDisciplines = filteredDisciplines.filter((d) =>
+    ["APROVADO", "APROVADO MÉDIA"].includes(d.status),
+  ).length;
+
+  return (passedDisciplines / totalDisciplines) * 100;
 }
