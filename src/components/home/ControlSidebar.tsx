@@ -40,7 +40,7 @@ const ControlSidebar = ({
   onCourseChange,
   disciplines,
 }: ControlSidebarProps) => {
-  const [selectedCourseValue, setSelectedCourseValue] = useState<string>();
+  const [selectedCourseValue, setSelectedCourseValue] = useState("");
   const [customMean, setCustomMean] = useState("");
   const [customStd, setCustomStd] = useState("");
 
