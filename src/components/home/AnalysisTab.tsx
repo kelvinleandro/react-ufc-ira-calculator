@@ -97,6 +97,8 @@ const GradeBarShape = (props: BarShapeProps) => {
 };
 
 const AnalysisTab = ({ iraData, disciplines }: AnalysisTabProps) => {
+  const isNarrow = window.innerWidth < 480;
+
   const uniqueSemesters = useMemo(
     () => Object.keys(iraData.semesterIra).sort(),
     [iraData.semesterIra],
@@ -371,9 +373,12 @@ const AnalysisTab = ({ iraData, disciplines }: AnalysisTabProps) => {
               <BarChart
                 data={filteredDisciplines}
                 layout="vertical"
-                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                margin={{ top: 20, right: 35, bottom: 20, left: 10 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="var(--color-border)"
+                />
 
                 <XAxis
                   type="number"
@@ -389,8 +394,8 @@ const AnalysisTab = ({ iraData, disciplines }: AnalysisTabProps) => {
                 <YAxis
                   type="category"
                   dataKey="name"
-                  tickFormatter={(value) => truncate(value, 20)}
-                  width={220}
+                  tickFormatter={(value) => truncate(value, isNarrow ? 7 : 20)}
+                  width={isNarrow ? 80 : 220}
                   style={{
                     fontSize: 12,
                     fill: "var(--color-muted-foreground)",
@@ -416,7 +421,16 @@ const AnalysisTab = ({ iraData, disciplines }: AnalysisTabProps) => {
                   }}
                 />
 
-                <Bar dataKey="grade" name="Nota" shape={GradeBarShape} />
+                <Bar
+                  dataKey="grade"
+                  name="Nota"
+                  shape={GradeBarShape}
+                  label={{
+                    position: "right",
+                    fill: "var(--color-muted-foreground)",
+                    fontSize: 11,
+                  }}
+                />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

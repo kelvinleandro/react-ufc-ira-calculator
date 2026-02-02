@@ -1,4 +1,4 @@
-import { TrendingUp, Gauge, PieChart, GraduationCap } from "lucide-react";
+import { User, Globe, PieChart, GraduationCap } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Discipline, PendingCourse } from "@/types/pdf";
 import type { IraData } from "@/types/ira";
@@ -27,24 +27,23 @@ const Dashboard = ({
             Resultados para: <span className="text-primary">{studentName}</span>
           </h1>
         </div>
-        {/* <SimulationModal /> */}
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 md:max-w-[85%] md:mx-auto">
         <MetricCard
           title="IRA Individual"
           value={iraData.individualIra.toFixed(3)}
-          icon={TrendingUp}
+          icon={User}
           color="blue"
         />
         <MetricCard
           title="IRA Geral"
           value={iraData.generalIra.toFixed(3)}
-          icon={Gauge}
+          icon={Globe}
           color="green"
         />
         <MetricCard
-          title="Progresso"
+          title="Progresso do Curso"
           value={`${iraData.courseProgress.toFixed(1)} %`}
           icon={PieChart}
           color="purple"

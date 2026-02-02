@@ -10,6 +10,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Course } from "@/types/course";
+import SimulationModal from "./SimulationModal";
+import type { Discipline } from "@/types/pdf";
+import MissingCourseModal from "./MissingCourseModal";
 
 const courses: Course[] = [
   {
@@ -27,6 +30,7 @@ const courses: Course[] = [
 ];
 
 interface ControlSidebarProps {
+  disciplines: Discipline[];
   onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onCourseChange: (course: Course | null) => void;
 }
@@ -34,10 +38,23 @@ interface ControlSidebarProps {
 const ControlSidebar = ({
   onFileChange,
   onCourseChange,
+  disciplines,
 }: ControlSidebarProps) => {
   const [selectedCourseValue, setSelectedCourseValue] = useState<string>();
   const [customMean, setCustomMean] = useState("");
   const [customStd, setCustomStd] = useState("");
+
+  const getCourse = (value: string) => {
+    const _course = courses.find((c) => c.value === value);
+    if (_course) return _course;
+
+    return {
+      value: "custom",
+      label: "Customizado",
+      mean: parseFloat(customMean) || 0,
+      std: parseFloat(customStd) || 0,
+    };
+  };
 
   const handleCourseSelection = (value: string) => {
     setSelectedCourseValue(value);
@@ -159,6 +176,13 @@ const ControlSidebar = ({
             </div>
           </div>
         )}
+
+        <MissingCourseModal />
+
+        <SimulationModal
+          disciplines={disciplines}
+          course={getCourse(selectedCourseValue ?? "custom")}
+        />
       </div>
     </aside>
   );

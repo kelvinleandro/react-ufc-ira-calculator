@@ -97,6 +97,7 @@ const Index = () => {
     <MainLayout>
       <div className="flex flex-col md:flex-row">
         <ControlSidebar
+          disciplines={disciplines}
           onFileChange={handleFileChange}
           onCourseChange={setSelectedCourse}
         />
