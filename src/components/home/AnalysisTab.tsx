@@ -15,12 +15,12 @@ import {
   Legend,
   Rectangle,
   type BarShapeProps,
+  type TooltipContentProps,
 } from "recharts";
 import type {
   ValueType,
   NameType,
 } from "recharts/types/component/DefaultTooltipContent";
-import { type TooltipContentProps } from "recharts/types/component/Tooltip";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { IraData } from "@/types/ira";
