@@ -1,6 +1,6 @@
 export interface Course {
-  value: string;
-  label: string;
+  id: string;
+  name: string;
   mean: number;
   std: number;
 }

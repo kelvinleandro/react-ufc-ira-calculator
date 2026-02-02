@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import type { Discipline } from "@/types/pdf";
@@ -163,11 +164,13 @@ const SimulationModal = ({ disciplines, course }: SimulationModalProps) => {
           Simular IRA
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-3xl">
+      <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto px-2 sm:px-6">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             Simule o seu IRA
           </DialogTitle>
+
+          <DialogDescription />
         </DialogHeader>
         <div className="space-y-4 py-4">
           <p className="text-sm text-muted-foreground">
@@ -175,10 +178,10 @@ const SimulationModal = ({ disciplines, course }: SimulationModalProps) => {
             horária, o período e a nota que você espera alcançar.
           </p>
           <div className="rounded-md border">
-            <Table>
+            <Table className="table-fixed w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[40%]">Disciplina</TableHead>
+                  <TableHead className="sm:w-[30%]">Disciplina</TableHead>
                   <TableHead>Período</TableHead>
                   <TableHead>CH</TableHead>
                   <TableHead>Nota</TableHead>

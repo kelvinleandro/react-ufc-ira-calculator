@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Upload, GraduationCap } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -13,21 +13,22 @@ import type { Course } from "@/types/course";
 import SimulationModal from "./SimulationModal";
 import type { Discipline } from "@/types/pdf";
 import MissingCourseModal from "./MissingCourseModal";
+import { fetchCourses } from "@/services/firebase.service";
 
-const courses: Course[] = [
-  {
-    value: "eng-comp",
-    label: "Engenharia de Computação",
-    mean: 7.270936965942383,
-    std: 1.8308340311050415,
-  },
-  {
-    value: "custom",
-    label: "Customizado",
-    mean: 0,
-    std: 0,
-  },
-];
+// const courses: Course[] = [
+//   {
+//     id: "eng-comp",
+//     name: "Engenharia de Computação",
+//     mean: 7.270936965942383,
+//     std: 1.8308340311050415,
+//   },
+//   {
+//     id: "custom",
+//     name: "Customizado",
+//     mean: 0,
+//     std: 0,
+//   },
+// ];
 
 interface ControlSidebarProps {
   disciplines: Discipline[];
@@ -40,17 +41,18 @@ const ControlSidebar = ({
   onCourseChange,
   disciplines,
 }: ControlSidebarProps) => {
+  const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourseValue, setSelectedCourseValue] = useState("");
   const [customMean, setCustomMean] = useState("");
   const [customStd, setCustomStd] = useState("");
 
   const getCourse = (value: string) => {
-    const _course = courses.find((c) => c.value === value);
+    const _course = courses.find((c) => c.id === value);
     if (_course) return _course;
 
     return {
-      value: "custom",
-      label: "Customizado",
+      id: "custom",
+      name: "Customizado",
       mean: parseFloat(customMean) || 0,
       std: parseFloat(customStd) || 0,
     };
@@ -58,13 +60,13 @@ const ControlSidebar = ({
 
   const handleCourseSelection = (value: string) => {
     setSelectedCourseValue(value);
-    const course = courses.find((c) => c.value === value);
+    const course = courses.find((c) => c.id === value);
 
     if (course) {
       if (value === "custom") {
         onCourseChange({
-          value: "custom",
-          label: "Customizado",
+          id: "custom",
+          name: "Customizado",
           mean: parseFloat(customMean) || 0,
           std: parseFloat(customStd) || 0,
         });
@@ -80,8 +82,8 @@ const ControlSidebar = ({
     const mean = e.target.value;
     setCustomMean(mean);
     onCourseChange({
-      value: "custom",
-      label: "Customizado",
+      id: "custom",
+      name: "Customizado",
       mean: parseFloat(mean) || 0,
       std: parseFloat(customStd) || 0,
     });
@@ -91,12 +93,35 @@ const ControlSidebar = ({
     const std = e.target.value;
     setCustomStd(std);
     onCourseChange({
-      value: "custom",
-      label: "Customizado",
+      id: "custom",
+      name: "Customizado",
       mean: parseFloat(customMean) || 0,
       std: parseFloat(std) || 0,
     });
   };
+
+  useEffect(() => {
+    async function loadData() {
+      let _courses: Course[] = [
+        {
+          id: "custom",
+          name: "Customizado",
+          mean: 0,
+          std: 0,
+        },
+      ];
+      try {
+        const ufcCourses = await fetchCourses();
+        _courses = [...ufcCourses, ..._courses];
+      } catch {
+        // does nothing
+      } finally {
+        setCourses(_courses);
+        setSelectedCourseValue(_courses[0].id);
+      }
+    }
+    loadData();
+  }, []);
 
   return (
     <aside className="md:min-h-[calc(100vh-4rem)] w-full md:w-72 border-r border-border gradient-sidebar p-6">
@@ -142,10 +167,10 @@ const ControlSidebar = ({
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Selecione o curso" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent position="popper">
               {courses.map((course) => (
-                <SelectItem key={course.value} value={course.value}>
-                  {course.label}
+                <SelectItem key={course.id} value={course.id}>
+                  {course.name}
                 </SelectItem>
               ))}
             </SelectContent>
