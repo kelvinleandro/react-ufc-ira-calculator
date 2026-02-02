@@ -1,73 +1,46 @@
-# React + TypeScript + Vite
+# Calculadora de IRA - UFC
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma aplicação web moderna e interativa para calcular o **Índice de Rendimento Acadêmico (IRA)** a partir do histórico escolar em PDF da **Universidade Federal do Ceará (UFC)**. Além do cálculo, a ferramenta oferece uma análise detalhada do desempenho acadêmico e permite simular notas futuras.
 
-Currently, two official plugins are available:
+![Demonstração da Calculadora de IRA](/public/preview.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Funcionalidades
 
-## React Compiler
+- **Upload de Histórico**: Carregue seu histórico escolar em formato PDF para análise automática.
+- **Dashboard Analítico**: Visualize de forma clara e organizada todas as suas métricas acadêmicas.
+- **Cálculo de IRA**:
+  - **IRA Individual**: Seu índice calculado com base nas suas notas, carga horária e um fator de penalidade por trancamentos.
+  - **IRA Geral**: Seu índice normalizado em relação à média e desvio padrão do seu curso.
+- **Análise de Desempenho**:
+  - Gráficos da evolução do seu IRA e da sua média por semestre.
+  - Distribuição de notas por faixa (Ruim, Regular, Bom, Ótimo, Excelente).
+  - Análise da carga horária cursada por semestre.
+- **Progresso do Curso**: Acompanhe o percentual de conclusão do seu curso com base nos créditos obrigatórios.
+- **Disciplinas Pendentes**: Visualize uma lista das disciplinas obrigatórias que ainda não foram cursadas.
+- **Simulação de Notas**: Adicione disciplinas futuras e simule notas para prever qual será seu IRA ao final do semestre.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## 🚀 Como Executar
 
-## Expanding the ESLint configuration
+Para executar o projeto localmente, siga os passos abaixo:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Clone o repositório:**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+   ```bash
+   git clone https://github.com/kelvinleandro/react-ufc-ira-calculator.git
+   cd react-ufc-ira-calculator
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+2. **Instale as dependências:**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+   ```bash
+   npm install
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3. **Execute o servidor de desenvolvimento:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+   ```bash
+   npm run dev
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+4. **Abra no navegador:**
+   Acesse [http://localhost:5173](http://localhost:5173) (ou a porta indicada no seu terminal) para visualizar a aplicação.
