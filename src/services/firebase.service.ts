@@ -1,7 +1,13 @@
 // Import the functions you need from the SDKs you need
-import type { Course } from "@/types/course";
+import type { Course, CourseSuggestion } from "@/types/course";
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs, collection } from "firebase/firestore";
+import {
+  getFirestore,
+  getDocs,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -39,4 +45,16 @@ export const fetchCourses = async () => {
       }) as Course,
   );
   return data;
+};
+
+export const suggestCourse = async (course: CourseSuggestion) => {
+  if (!necessaryVariablesExists) return;
+
+  const res = await addDoc(collection(db, "sugestoesCursos"), {
+    name: course.name,
+    courseMean: course.mean,
+    courseStd: course.std,
+    createdAt: serverTimestamp(),
+  });
+  return res.id;
 };

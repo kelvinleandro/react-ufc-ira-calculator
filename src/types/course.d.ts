@@ -4,3 +4,5 @@ export interface Course {
   mean: number;
   std: number;
 }
+
+export type CourseSuggestion = Omit<Course, "id">;
