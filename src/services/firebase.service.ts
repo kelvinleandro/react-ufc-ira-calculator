@@ -20,7 +20,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const necessaryVariablesExists =
+  import.meta.env.VITE_FIREBASE_API_KEY &&
+  import.meta.env.VITE_FIREBASE_AUTH_DOMAIN &&
+  import.meta.env.VITE_FIREBASE_PROJECT_ID &&
+  import.meta.env.VITE_FIREBASE_STORAGE_BUCKET &&
+  import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID &&
+  import.meta.env.VITE_FIREBASE_APP_ID;
+
 export const fetchCourses = async () => {
+  if (!necessaryVariablesExists) return [];
+
   const snapshot = await getDocs(collection(db, "cursosUfc"));
   const data = snapshot.docs.map(
     (doc) =>
