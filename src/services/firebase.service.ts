@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import type { Course, CourseSuggestion } from "@/types/course";
 import { initializeApp } from "firebase/app";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import {
   getFirestore,
   getDocs,
@@ -24,6 +25,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+  isTokenAutoRefreshEnabled: true,
+});
+
 const db = getFirestore(app);
 
 const necessaryVariablesExists =
