@@ -43,7 +43,7 @@ const PendingTab = ({ pendingCourses }: PendingTabProps) => {
                 >
                   <TableCell>{item.code}</TableCell>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.code}</TableCell>
+                  <TableCell>{item.creditHour}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
