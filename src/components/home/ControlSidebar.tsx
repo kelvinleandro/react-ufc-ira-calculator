@@ -118,10 +118,11 @@ const ControlSidebar = ({
       } finally {
         setCourses(_courses);
         setSelectedCourseValue(_courses[0].id);
+        onCourseChange(_courses[0]);
       }
     }
     loadData();
-  }, []);
+  }, [onCourseChange]);
 
   return (
     <aside className="md:min-h-[calc(100vh-4rem)] w-full md:w-72 border-r border-border gradient-sidebar p-6">
