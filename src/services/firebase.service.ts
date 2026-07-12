@@ -61,6 +61,7 @@ export const suggestCourse = async (course: CourseSuggestion) => {
     name: course.name,
     courseMean: course.mean,
     courseStd: course.std,
+    proof: course.proof,
     createdAt: serverTimestamp(),
   });
   return res.id;

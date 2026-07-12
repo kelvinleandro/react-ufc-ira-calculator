@@ -5,4 +5,4 @@ export interface Course {
   std: number;
 }
 
-export type CourseSuggestion = Omit<Course, "id">;
+export type CourseSuggestion = Omit<Course, "id"> & { proof: string };

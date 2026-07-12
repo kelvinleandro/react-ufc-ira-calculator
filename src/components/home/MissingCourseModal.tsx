@@ -17,14 +17,33 @@ const MissingCourseModal = () => {
   const [courseName, setCourseName] = useState("");
   const [mean, setMean] = useState("");
   const [std, setStd] = useState("");
+  const [proof, setProof] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert("A imagem deve ter no máximo 2MB.");
+        e.target.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProof(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setProof("");
+    }
+  };
+
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    if (!courseName || !mean || !std) {
-      alert("Por favor, preencha todos os campos.");
+    if (!courseName || !mean || !std || !proof) {
+      alert("Por favor, preencha todos os campos e anexe o comprovante.");
       return;
     }
 
@@ -42,11 +61,13 @@ const MissingCourseModal = () => {
         name: courseName,
         mean: meanValue,
         std: stdValue,
+        proof: proof,
       });
       alert("Sugestão enviada com sucesso!");
       setCourseName("");
       setMean("");
       setStd("");
+      setProof("");
       setOpen(false); // Close the dialog on success
     } catch (error) {
       console.error("Error suggesting course:", error);
@@ -109,6 +130,16 @@ const MissingCourseModal = () => {
               placeholder="Ex: 1.2"
               value={std}
               onChange={(e) => setStd(e.target.value)}
+              required
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="proof">Print do IRA do curso no Sigaa</Label>
+            <Input
+              id="proof"
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
               required
             />
           </div>
