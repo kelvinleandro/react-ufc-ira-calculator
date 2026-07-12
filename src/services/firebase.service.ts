@@ -64,5 +64,7 @@ export const suggestCourse = async (course: CourseSuggestion) => {
     proof: course.proof,
     createdAt: serverTimestamp(),
   });
+
   return res.id;
 };
+

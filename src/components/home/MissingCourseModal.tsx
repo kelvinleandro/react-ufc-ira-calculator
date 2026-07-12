@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { suggestCourse } from "@/services/firebase.service";
+import { notifyCourseSuggestion } from "@/services/discord.service";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
@@ -57,12 +58,18 @@ const MissingCourseModal = () => {
 
     setIsSubmitting(true);
     try {
-      await suggestCourse({
+      const courseData = {
         name: courseName,
         mean: meanValue,
         std: stdValue,
         proof: proof,
-      });
+      };
+      
+      await suggestCourse(courseData);
+      
+      // Send notification to discord
+      notifyCourseSuggestion(courseData);
+      
       alert("Sugestão enviada com sucesso!");
       setCourseName("");
       setMean("");
