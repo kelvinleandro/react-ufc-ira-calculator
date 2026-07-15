@@ -15,21 +15,6 @@ import type { Discipline } from "@/types/pdf";
 import MissingCourseModal from "./MissingCourseModal";
 import { fetchCourses } from "@/services/firebase.service";
 
-// const courses: Course[] = [
-//   {
-//     id: "eng-comp",
-//     name: "Engenharia de Computação",
-//     mean: 7.270936965942383,
-//     std: 1.8308340311050415,
-//   },
-//   {
-//     id: "custom",
-//     name: "Customizado",
-//     mean: 0,
-//     std: 0,
-//   },
-// ];
-
 interface ControlSidebarProps {
   disciplines: Discipline[];
   onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -80,6 +65,7 @@ const ControlSidebar = ({
 
   const handleMeanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const mean = e.target.value;
+    if (parseFloat(mean) < 0 || parseFloat(mean) > 10) return;
     setCustomMean(mean);
     onCourseChange({
       id: "custom",
@@ -91,6 +77,7 @@ const ControlSidebar = ({
 
   const handleStdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const std = e.target.value;
+    if (parseFloat(std) < 0) return;
     setCustomStd(std);
     onCourseChange({
       id: "custom",
@@ -117,12 +104,10 @@ const ControlSidebar = ({
         // does nothing
       } finally {
         setCourses(_courses);
-        setSelectedCourseValue(_courses[0].id);
-        onCourseChange(_courses[0]);
       }
     }
     loadData();
-  }, [onCourseChange]);
+  }, []);
 
   return (
     <aside className="md:min-h-[calc(100vh-4rem)] w-full md:w-72 border-r border-border gradient-sidebar p-6">
@@ -178,6 +163,24 @@ const ControlSidebar = ({
           </Select>
         </div>
 
+        {selectedCourseValue !== "custom" && selectedCourseValue !== "" && (
+          <div className="space-y-1 rounded-md bg-muted/50 p-3 text-sm text-muted-foreground animate-fade-in">
+            <p className="flex justify-between">
+              <span>Média:</span>
+              <span className="font-medium text-foreground">
+                {getCourse(selectedCourseValue).mean.toFixed(3)}
+              </span>
+            </p>
+            <p className="flex justify-between">
+              <span>Desvio Padrão:</span>
+              <span className="font-medium text-foreground">
+                {getCourse(selectedCourseValue).std.toFixed(3)}
+              </span>
+            </p>
+          </div>
+        )}
+
+
         {selectedCourseValue === "custom" && (
           <div className="space-y-6">
             <div className="space-y-3">
@@ -188,6 +191,9 @@ const ControlSidebar = ({
                 value={customMean}
                 onChange={handleMeanChange}
                 placeholder="Ex: 7.5"
+                min={0}
+                max={10}
+                step={0.01}
               />
             </div>
             <div className="space-y-3">
@@ -198,6 +204,8 @@ const ControlSidebar = ({
                 value={customStd}
                 onChange={handleStdChange}
                 placeholder="Ex: 1.5"
+                min={0}
+                step={0.01}
               />
             </div>
           </div>

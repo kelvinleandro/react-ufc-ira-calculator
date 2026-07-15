@@ -97,12 +97,12 @@ const MissingCourseModal = () => {
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
-            Seu curso não está na lista?
+            Curso não listado ou desatualizado?
           </DialogTitle>
 
           <DialogDescription>
-            Sugira o seu curso através do formulário abaixo, inserindo o nome do
-            curso, a média e o desvio padrão com base no semestre mais recente.
+            Sugira um novo curso ou atualize a média e desvio padrão de um curso
+            existente através do formulário abaixo, com base no semestre mais recente.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 py-4">
