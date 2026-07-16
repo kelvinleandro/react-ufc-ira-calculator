@@ -42,5 +42,11 @@ Para executar o projeto localmente, siga os passos abaixo:
    npm run dev
    ```
 
+   ou:
+
+   ```bash
+   npx vercel dev
+   ```
+
 4. **Abra no navegador:**
    Acesse [http://localhost:5173](http://localhost:5173) (ou a porta indicada no seu terminal) para visualizar a aplicação.
