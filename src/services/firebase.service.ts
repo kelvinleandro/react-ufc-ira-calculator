@@ -26,6 +26,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+if (import.meta.env.DEV) {
+  // Isso diz ao Firebase para usar um Token de Debug local em vez de bater no reCAPTCHA real
+  (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = import.meta.env.VITE_APPCHECK_DEBUG_TOKEN || true;
+}
+
 initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
   isTokenAutoRefreshEnabled: true,
