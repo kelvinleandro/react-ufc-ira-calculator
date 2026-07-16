@@ -14,6 +14,7 @@ import SimulationModal from "./SimulationModal";
 import type { Discipline } from "@/types/pdf";
 import MissingCourseModal from "./MissingCourseModal";
 import { fetchCourses } from "@/services/firebase.service";
+import { useNetworkState } from "@/hooks/useNetworkState";
 
 interface ControlSidebarProps {
   disciplines: Discipline[];
@@ -30,6 +31,7 @@ const ControlSidebar = ({
   const [selectedCourseValue, setSelectedCourseValue] = useState("");
   const [customMean, setCustomMean] = useState("");
   const [customStd, setCustomStd] = useState("");
+  const isOnline = useNetworkState();
 
   const getCourse = (value: string) => {
     const _course = courses.find((c) => c.id === value);
@@ -89,6 +91,8 @@ const ControlSidebar = ({
 
   useEffect(() => {
     async function loadData() {
+      if (courses.length > 1) return;
+      
       let _courses: Course[] = [
         {
           id: "custom",
@@ -97,17 +101,18 @@ const ControlSidebar = ({
           std: 0,
         },
       ];
-      try {
-        const ufcCourses = await fetchCourses();
-        _courses = [...ufcCourses, ..._courses];
-      } catch {
-        // does nothing
-      } finally {
-        setCourses(_courses);
+      if (isOnline) {
+        try {
+          const ufcCourses = await fetchCourses();
+          _courses = [...ufcCourses, ..._courses];
+        } catch {
+          // does nothing
+        }
       }
+      setCourses(_courses);
     }
     loadData();
-  }, []);
+  }, [isOnline]);
 
   return (
     <aside className="md:min-h-[calc(100vh-4rem)] w-full md:w-72 border-r border-border gradient-sidebar p-6">
@@ -211,7 +216,7 @@ const ControlSidebar = ({
           </div>
         )}
 
-        <MissingCourseModal />
+        {isOnline && <MissingCourseModal />}
 
         <SimulationModal
           disciplines={disciplines}

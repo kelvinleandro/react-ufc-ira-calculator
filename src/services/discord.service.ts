@@ -19,6 +19,6 @@ export const notifyCourseSuggestion = async (course: CourseSuggestion) => {
       throw new Error(`API responded with ${res.status}`);
     }
   } catch (error) {
-    console.error("Erro ao enviar notificação para a API da Vercel:", error);
+    if (import.meta.env.NODE_ENV === "development") console.error("Error sending notification to API da Vercel:", error);
   }
 };

@@ -26,8 +26,8 @@ const MissingCourseModal = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        alert("A imagem deve ter no máximo 2MB.");
+      if (file.size > 1 * 1024 * 1024) {
+        alert("A imagem deve ter no máximo 1MB.");
         e.target.value = "";
         return;
       }
@@ -77,7 +77,7 @@ const MissingCourseModal = () => {
       setProof("");
       setOpen(false); // Close the dialog on success
     } catch (error) {
-      console.error("Error suggesting course:", error);
+      if (import.meta.env.NODE_ENV === "development") console.error("Error suggesting course:", error);
       alert("Erro ao enviar sugestão. Tente novamente.");
     } finally {
       setIsSubmitting(false);
