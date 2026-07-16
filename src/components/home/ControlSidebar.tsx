@@ -27,7 +27,14 @@ const ControlSidebar = ({
   onCourseChange,
   disciplines,
 }: ControlSidebarProps) => {
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<Course[]>([
+    {
+      id: "custom",
+      name: "Customizado",
+      mean: 0,
+      std: 0,
+    },
+  ]);
   const [selectedCourseValue, setSelectedCourseValue] = useState("");
   const [customMean, setCustomMean] = useState("");
   const [customStd, setCustomStd] = useState("");
@@ -91,28 +98,25 @@ const ControlSidebar = ({
 
   useEffect(() => {
     async function loadData() {
-      if (courses.length > 1) return;
-      
-      let _courses: Course[] = [
-        {
-          id: "custom",
-          name: "Customizado",
-          mean: 0,
-          std: 0,
-        },
-      ];
-      if (isOnline) {
-        try {
-          const ufcCourses = await fetchCourses();
-          _courses = [...ufcCourses, ..._courses];
-        } catch {
-          // does nothing
+      // Se não tem internet ou já carregou os cursos, não faz nada
+      if (!isOnline || courses.length > 1) return;
+
+      try {
+        const ufcCourses = await fetchCourses();
+        if (ufcCourses.length > 0) {
+          setCourses((prev) => {
+            // Previne duplicação caso o StrictMode do React rode duas vezes rápidas
+            if (prev.length > 1) return prev;
+            return [...ufcCourses, ...prev];
+          });
         }
+      } catch {
+        // does nothing
       }
-      setCourses(_courses);
     }
+    
     loadData();
-  }, [isOnline]);
+  }, [isOnline, courses.length]);
 
   return (
     <aside className="md:min-h-[calc(100vh-4rem)] w-full md:w-72 border-r border-border gradient-sidebar p-6">
