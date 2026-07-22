@@ -89,26 +89,24 @@ export function calculateMeanGradePerSemester(
 ): Record<string, number> {
   if (disciplines.length === 0) return {};
 
-  const gradesByPeriod = disciplines
-    .filter((d) =>
-      ["APROVADO", "APROVADO MÉDIA", "REPROVADO"].includes(d.status),
-    )
-    .reduce((acc: Record<string, { sum: number; count: number }>, d) => {
-      if (!acc[d.period]) {
-        acc[d.period] = { sum: 0, count: 0 };
-      }
-      acc[d.period].sum += d.grade;
-      acc[d.period].count += 1;
-      return acc;
-    }, {});
+  const validDisciplines = disciplines.filter((d) =>
+    ["APROVADO", "APROVADO MÉDIA", "REPROVADO"].includes(d.status),
+  );
+
+  const completedPeriods = [
+    ...new Set(validDisciplines.map((d) => d.period)),
+  ].sort();
 
   const meanGrades: Record<string, number> = {};
-  Object.keys(gradesByPeriod)
-    .sort()
-    .forEach((period) => {
-      const { sum, count } = gradesByPeriod[period];
-      meanGrades[period] = sum / count;
-    });
+
+  for (const period of completedPeriods) {
+    const disciplinesUntilPeriod = validDisciplines.filter(
+      (d) => d.period <= period,
+    );
+    const sum = disciplinesUntilPeriod.reduce((acc, d) => acc + d.grade, 0);
+    const count = disciplinesUntilPeriod.length;
+    meanGrades[period] = count > 0 ? sum / count : 0;
+  }
 
   return meanGrades;
 }
